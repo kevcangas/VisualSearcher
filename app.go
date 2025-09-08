@@ -27,12 +27,13 @@ func (a *App) Greet(name string) string {
 	return fmt.Sprintf("Hello %s, It's show time!", name)
 }
 
-// Class Sorter
+///////////////// Class Sorter /////////////////////////////
 
 type Sorter struct {
-	vector     []int
-	vectorSize int
-	steps      [][]int
+	vector       []int
+	vectorSize   int
+	steps        [][]int
+	currentValue [][]int
 }
 
 func NewSorter() *Sorter {
@@ -58,7 +59,7 @@ func (s *Sorter) VectorGen(sliceSize int) []int {
 
 func (s *Sorter) InsertMethod() [][]int {
 	s.steps = [][]int{}
-	saver := s.vector
+	s.currentValue = [][]int{}
 	for i := 1; i < s.vectorSize; i++ {
 		aux := s.vector[i]
 		k := i - 1
@@ -66,6 +67,7 @@ func (s *Sorter) InsertMethod() [][]int {
 		for !sw && k >= 0 {
 			if aux < s.vector[k] {
 				s.vector[k+1] = s.vector[k]
+				s.currentValue = append(s.currentValue, []int{aux})
 				k = k - 1
 				s.steps = append(s.steps, append([]int(nil), s.vector...))
 				//fmt.Println("Vector: ", saver)
@@ -76,7 +78,40 @@ func (s *Sorter) InsertMethod() [][]int {
 		s.vector[k+1] = aux
 	}
 
-	fmt.Println("Steps: ", s.steps)
-	_ = copy(s.vector, saver) //Resets the value of the vector
 	return s.steps
+}
+
+func (s *Sorter) ShellMethod() [][]int {
+	s.steps = [][]int{}
+	s.currentValue = [][]int{}
+	jump := s.vectorSize / 2
+	var i, j, k, aux int
+	for jump > 0 {
+		for i = jump; i < s.vectorSize; i++ {
+			j = i - jump
+			for j >= 0 {
+				k = j + jump
+				s.steps = append(s.steps, append([]int(nil), s.vector...))
+				s.currentValue = append(s.currentValue, []int{aux})
+				if s.vector[j] < s.vector[k] {
+					j = 0
+				} else {
+					aux = s.vector[j]
+					s.vector[j] = s.vector[k]
+					s.vector[k] = aux
+				}
+				j = j - jump
+			}
+		}
+		if jump == 1 {
+			break
+		}
+		jump = (1 + jump) / 2
+		//fmt.Println("Salto: ", jump, "Vector: ", s.vector)
+	}
+	return s.steps
+}
+
+func (s *Sorter) GetCurrentValue() [][]int {
+	return s.currentValue
 }
