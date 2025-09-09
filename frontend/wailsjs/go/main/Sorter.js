@@ -14,6 +14,10 @@ export function ShellMethod() {
   return window['go']['main']['Sorter']['ShellMethod']();
 }
 
+export function SortBySelectionMethod() {
+  return window['go']['main']['Sorter']['SortBySelectionMethod']();
+}
+
 export function VectorGen(arg1) {
   return window['go']['main']['Sorter']['VectorGen'](arg1);
 }

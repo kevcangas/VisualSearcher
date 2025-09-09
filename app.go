@@ -68,8 +68,8 @@ func (s *Sorter) InsertMethod() [][]int {
 			if aux < s.vector[k] {
 				s.vector[k+1] = s.vector[k]
 				s.currentValue = append(s.currentValue, []int{aux})
-				k = k - 1
 				s.steps = append(s.steps, append([]int(nil), s.vector...))
+				k = k - 1
 				//fmt.Println("Vector: ", saver)
 			} else {
 				sw = true
@@ -109,6 +109,29 @@ func (s *Sorter) ShellMethod() [][]int {
 		jump = (1 + jump) / 2
 		//fmt.Println("Salto: ", jump, "Vector: ", s.vector)
 	}
+	return s.steps
+}
+
+func (s *Sorter) SortBySelectionMethod() [][]int {
+	s.steps = [][]int{}
+	s.currentValue = [][]int{}
+	for i := 0; i < s.vectorSize; i++ {
+		aux := s.vector[i]
+		k := i
+		j := i
+		for j < s.vectorSize {
+			if s.vector[j] < aux {
+				aux = s.vector[j]
+				k = j
+			}
+			s.steps = append(s.steps, append([]int(nil), s.vector...))
+			s.currentValue = append(s.currentValue, []int{aux})
+			j = j + 1
+		}
+		s.vector[k] = s.vector[i]
+		s.vector[i] = aux
+	}
+
 	return s.steps
 }
 

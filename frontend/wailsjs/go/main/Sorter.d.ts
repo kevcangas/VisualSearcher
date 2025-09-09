@@ -7,4 +7,6 @@ export function InsertMethod():Promise<Array<any>>;
 
 export function ShellMethod():Promise<Array<any>>;
 
+export function SortBySelectionMethod():Promise<Array<any>>;
+
 export function VectorGen(arg1:number):Promise<Array<number>>;

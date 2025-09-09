@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 // Asegúrate de importar Box o Stack de MUI si quieres un layout más prolijo
 // import Box from '@mui/material/Box';
-import { VectorGen, InsertMethod, GetCurrentValue, ShellMethod } from "../wailsjs/go/main/Sorter";
+import { VectorGen, InsertMethod, GetCurrentValue, ShellMethod, SortBySelectionMethod } from "../wailsjs/go/main/Sorter";
 
 // --- Configuración de Colores ---
 const defaultColor = '#1976d2'; // Color azul por defecto de MUI
@@ -62,6 +62,21 @@ function App() {
         }
     };
 
+    const sortBySelectionMethod = async () => {
+        try {
+            const vectorsData = await SortBySelectionMethod();
+            const highlightsData = await GetCurrentValue();
+
+            setDataVectors(vectorsData);
+            setHighlightVectors(highlightsData);
+            setCurrentIndex(0);
+            setIsRunning(true);
+            setShowChart(true);
+        } catch (err) {
+            console.error("Error al obtener datos:", err);
+        }
+    };
+
     // Efecto que avanza el cuadro de la animación cada segundo
     useEffect(() => {
         if (isRunning && dataVectors.length > 0) {
@@ -100,6 +115,7 @@ function App() {
                 <button onClick={showStaticChart}>Init Array</button>
                 <button onClick={insertMethod} disabled={isRunning}>Insert Method</button>
                 <button onClick={shellMethod} disabled={isRunning}>Shell Method</button>
+                <button onClick={sortBySelectionMethod} disabled={isRunning}>Sort By Selection Method</button>
             </div>
 
             {/* --- GRÁFICA PRINCIPAL (Animación completa) --- */}
