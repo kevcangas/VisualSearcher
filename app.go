@@ -135,6 +135,30 @@ func (s *Sorter) SortBySelectionMethod() [][]int {
 	return s.steps
 }
 
+func (s *Sorter) BubbleMethod() [][]int {
+	s.steps = [][]int{}
+	s.currentValue = [][]int{}
+	flag := false
+	var aux int
+	i := 0
+	for i < s.vectorSize && !flag {
+		flag = true
+		for j := 0; j < s.vectorSize-1-i; j++ {
+			if s.vector[j] > s.vector[j+1] {
+				aux = s.vector[j]
+				s.vector[j] = s.vector[j+1]
+				s.vector[j+1] = aux
+				flag = false
+			}
+			s.steps = append(s.steps, append([]int(nil), s.vector...))
+			s.currentValue = append(s.currentValue, []int{aux})
+		}
+		i++
+	}
+
+	return s.steps
+}
+
 func (s *Sorter) GetCurrentValue() [][]int {
 	return s.currentValue
 }
