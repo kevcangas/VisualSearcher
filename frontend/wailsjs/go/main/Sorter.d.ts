@@ -7,6 +7,8 @@ export function GetCurrentValue():Promise<Array<any>>;
 
 export function InsertMethod():Promise<Array<any>>;
 
+export function QuickSort():Promise<Array<any>>;
+
 export function ShellMethod():Promise<Array<any>>;
 
 export function SortBySelectionMethod():Promise<Array<any>>;

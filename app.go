@@ -159,6 +159,37 @@ func (s *Sorter) BubbleMethod() [][]int {
 	return s.steps
 }
 
+func (s *Sorter) partition(low int, high int) int {
+	pivot := s.vector[high]
+	i := low
+	for j := i; j <= high; j++ {
+		if s.vector[j] < pivot {
+			s.vector[i], s.vector[j] = s.vector[j], s.vector[i]
+			i++
+		}
+		s.steps = append(s.steps, append([]int(nil), s.vector...))
+		s.currentValue = append(s.currentValue, []int{pivot})
+	}
+	s.vector[i], s.vector[high] = s.vector[high], s.vector[i]
+	return i
+}
+
+func (s *Sorter) quickSortCode(low int, high int) {
+	var p int
+	if low < high {
+		p = s.partition(low, high)
+		s.quickSortCode(low, p-1)
+		s.quickSortCode(p+1, high)
+	}
+}
+
+func (s *Sorter) QuickSort() [][]int {
+	s.steps = [][]int{}
+	s.currentValue = [][]int{}
+	s.quickSortCode(0, s.vectorSize-1)
+	return s.steps
+}
+
 func (s *Sorter) GetCurrentValue() [][]int {
 	return s.currentValue
 }

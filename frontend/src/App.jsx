@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 // Asegúrate de importar Box o Stack de MUI si quieres un layout más prolijo
 // import Box from '@mui/material/Box';
-import { VectorGen, InsertMethod, GetCurrentValue, ShellMethod, SortBySelectionMethod, BubbleMethod } from "../wailsjs/go/main/Sorter";
+import { VectorGen, InsertMethod, GetCurrentValue, ShellMethod, SortBySelectionMethod, BubbleMethod, QuickSort } from "../wailsjs/go/main/Sorter";
 
 // --- Configuración de Colores ---
 const defaultColor = '#1976d2'; // Color azul por defecto de MUI
@@ -92,6 +92,21 @@ function App() {
         }
     };
 
+    const quickSort = async () => {
+        try {
+            const vectorsData = await QuickSort();
+            const highlightsData = await GetCurrentValue();
+
+            setDataVectors(vectorsData);
+            setHighlightVectors(highlightsData);
+            setCurrentIndex(0);
+            setIsRunning(true);
+            setShowChart(true);
+        } catch (err) {
+            console.error("Error al obtener datos:", err);
+        }
+    };
+
     // Efecto que avanza el cuadro de la animación cada segundo
     useEffect(() => {
         if (isRunning && dataVectors.length > 0) {
@@ -132,6 +147,7 @@ function App() {
                 <button onClick={shellMethod} disabled={isRunning}>Shell Method</button>
                 <button onClick={sortBySelectionMethod} disabled={isRunning}>Sort By Selection Method</button>
                 <button onClick={bubbleMethod} disabled={isRunning}>Bubble Method</button>
+                <button onClick={quickSort} disabled={isRunning}>QuickSort Method</button>
             </div>
 
             {/* --- GRÁFICA PRINCIPAL (Animación completa) --- */}

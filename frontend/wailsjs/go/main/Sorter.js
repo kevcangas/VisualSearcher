@@ -14,6 +14,10 @@ export function InsertMethod() {
   return window['go']['main']['Sorter']['InsertMethod']();
 }
 
+export function QuickSort() {
+  return window['go']['main']['Sorter']['QuickSort']();
+}
+
 export function ShellMethod() {
   return window['go']['main']['Sorter']['ShellMethod']();
 }
