@@ -171,6 +171,7 @@ func (s *Sorter) partition(low int, high int) int {
 		s.currentValue = append(s.currentValue, []int{pivot})
 	}
 	s.vector[i], s.vector[high] = s.vector[high], s.vector[i]
+	s.steps = append(s.steps, append([]int(nil), s.vector...))
 	return i
 }
 
